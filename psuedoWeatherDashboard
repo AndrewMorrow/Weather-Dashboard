@@ -1,0 +1,46 @@
+Overview - This will be a weather dashboard that presents the user with multiple cities selected and shows current and future conditions. It will feature a search bar to search for different cities. Then it presents the city name, date, weather representation icon, temperature, humidity, wind speed, and UV index.
+
+-------HTML Skeleton-------
+
+This will have a <header> that says Weather dashboard
+
+Under that it will have a search field to the top left of the screen.
+
+Under the search field to the left top the page it will have a list of searched cities so the user can easily revist them.
+
+To the right of the search and cities display fields there will be the searched city displayed with the following in its own container.
+
+city name, date , weather representation icon
+temperature, 
+humidity, 
+wind speed, 
+UV index.
+
+under that container it will have a 5 day forcast with cards for each day showing the following
+
+date
+weather representation icon
+temperature
+humidity
+
+------- End HTML Skeleton -------
+
+------- Functionality -------
+
+Target html elements for each container layed out in the HTML skeleton.
+
+The use JS to display the text of the containers.
+
+We will have to get the city they want to display. We can use the users location or it will use the city that they searched for instead.
+
+The we will call the https://openweathermap.org/api to get the weather information using the user home location or searched location.
+
+We will then parse the data that is retrieved to be able to acces the data keys/value pairs.
+
+We will then target the values that we need using the keys of the object we received.
+
+Once we have all the values we need - Target the innerHTML to display it in the order via the HTML skeleton.
+
+------- End Functionality -------
+
+apiKey = 352f5b8e182609abba7014500a96eea5
