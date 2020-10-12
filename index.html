@@ -15,6 +15,12 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="styles.css" />
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+            integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+            crossorigin="anonymous"
+        />
 
         <title>Weather Dashboard</title>
     </head>
@@ -28,20 +34,34 @@
                 <!-- row 1 col 1 start -->
                 <div class="col-4">
                     <!-- search bar -->
-                    <form class="search-bar">Search Field</form>
+                    <label for="Search Field">Search for a City:</label>
+                    <form class="input-group search-bar mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="City Name"
+                            aria-label="City Search"
+                            aria-describedby="Input"
+                        />
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="Input Icon"
+                                ><i class="fas fa-search"></i
+                            ></span>
+                        </div>
+                    </form>
                     <!-- search history -->
-                    <ul class="search-history">
-                        Search History
-                    </ul>
+                    <ul class="search-history list-group"></ul>
                 </div>
                 <!-- row 1 col 1 end -->
                 <!-- row 1 col 2 start -->
 
                 <section class="col">
                     <!-- City Display Card -->
-                    <div class="city-display">City Here</div>
+                    <div class="city-display"></div>
                     <!-- 5 day forecast -->
-                    <div class="forecast">5 day forecast</div>
+                    <div class="forecast">
+                        <p>5 Day Forecast:</p>
+                    </div>
                 </section>
                 <!-- row 1 col 2 end-->
             </section>

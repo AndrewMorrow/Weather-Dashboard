@@ -44,3 +44,61 @@ Once we have all the values we need - Target the innerHTML to display it in the 
 ------- End Functionality -------
 
 apiKey = 352f5b8e182609abba7014500a96eea5
+
+
+----- forecast card structure -----
+<div class="forecast">
+    <p>5 Day Forecast:</p>
+    <div class="card" style="width: 8rem">
+        <h6 class="card-title">Date here</h6>
+        <p class="card-text">
+            Icon <br />
+            Temp <br />
+            Hum
+        </p>
+    </div>
+</div>
+space-between to line up cards
+
+------- City Card Structure -------
+
+<div class="city-display card">
+        <div class="card-body">
+            <h3 class="card-title">
+                City Name Here (00/00/0000) icon
+            </h3>
+            <p class="card-text">
+                Temp <br />
+                Hum <br />
+                Wind Speed <br />
+                UV Index
+            </p>
+        </div>
+</div>
+
+
+<!-- search history structure -->
+    <ul class="search-history list-group">
+        <li class="list-group-item">City Name Here</li>
+        <li class="list-group-item">City Name Here</li>
+        <li class="list-group-item">City Name Here</li>
+    </ul>
+
+    
+    
+<!-- search bar structure -->
+    <label for="Search Field">Search for a City:</label>
+    <form class="input-group search-bar mb-3">
+        <input
+            type="text"
+            class="form-control"
+            placeholder="City Name"
+            aria-label="City Search"
+            aria-describedby="Input"
+        />
+        <div class="input-group-append">
+            <span class="input-group-text" id="Input Icon"
+                ><i class="fas fa-search"></i
+            ></span>
+        </div>
+    </form>
