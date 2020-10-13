@@ -21,7 +21,7 @@ function setLocationGeo(position) {
     let longitude = position.coords.longitude;
 
     // takes lat and long and passes to this function
-    let apiGeo = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&APPID=${apiKey}`;
+    let apiGeo = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&APPID=${apiKey}`;
 
     $.ajax(apiGeo, {
         success: function (data) {
@@ -29,11 +29,28 @@ function setLocationGeo(position) {
             console.log(weatherReceived);
             cityNameReceived = weatherReceived.name;
             weatherIconId = weatherReceived.weather[0].icon;
-            temperature = weatherReceived.main.temp;
+            temperature = Math.round(weatherReceived.main.temp);
             humidity = weatherReceived.main.humidity;
             windSpeed = weatherReceived.wind.speed;
 
-            cityDisplayElem.$(`"<p> ${cityNameReceived} </p> "`).append();
+            var cityNameHeader = $(`<h2> ${cityNameReceived} </h2>`);
+            var tempDisplay = $(`<p> Temperature: ${temperature} °F </p>`);
+            var humDisplay = $(`<p> Humidity: ${humidity} % </p>`);
+            var windSpeedDisplay = $(`<p> Wind Speed: ${windSpeed} MPH </p>`);
+            cityDisplayElem.append(cityNameHeader);
+            cityDisplayElem.append(tempDisplay);
+            cityDisplayElem.append(humDisplay);
+            cityDisplayElem.append(windSpeedDisplay);
+        },
+        error: function () {
+            $(errorElem).text("An Error occured while retrieving data");
+        },
+    });
+    let apiUvi = `http://api.openweathermap.org/data/2.5/uvi?lat=${latitude}&lon=${longitude}&units=imperial&APPID=${apiKey}`;
+    $.ajax(apiGeo, {
+        success: function (data) {
+            var uviReceived = data;
+            console.log(uviReceived);
         },
         error: function () {
             $(errorElem).text("An Error occured while retrieving data");
@@ -49,15 +66,13 @@ function setLocationGeo(position) {
 
 searchButtonElem.on("click", (e) => {
     e.preventDefault();
-    userCityName = $("input").val().split(",")[0].trim();
-    // userCityState = $("input").val().split(",")[1].trim();
+    userCityCall = $("input").val();
 
-    var savedCities = localStorage.setItem("City", userCityName);
-    recieveUserCity(userCityName);
+    recieveUserCity(userCityCall);
 });
 
-function recieveUserCity(cityName) {
-    let apiUserCity = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&APPID=${apiKey}`;
+function recieveUserCity(cityCall) {
+    let apiUserCity = `http://api.openweathermap.org/data/2.5/weather?q=${cityCall}&units=imperial&APPID=${apiKey}`;
 
     $.ajax(apiUserCity, {
         success: function (data) {
@@ -67,6 +82,7 @@ function recieveUserCity(cityName) {
             temperature = weatherReceived.main.temp;
             humidity = weatherReceived.main.humidity;
             windSpeed = weatherReceived.wind.speed;
+            var savedCities = localStorage.setItem("City", cityCall);
         },
         error: function () {
             $(errorElem).text(

@@ -102,3 +102,47 @@ space-between to line up cards
             ></span>
         </div>
     </form>
+
+
+
+    Object { coord: {…}, weather: (1) […], base: "stations", main: {…}, visibility: 10000, wind: {…}, clouds: {…}, dt: 1602560954, sys: {…}, timezone: -18000, … }
+
+
+    {…}
+​
+base: "stations"
+​
+clouds: Object { all: 75 }
+​
+cod: 200
+​
+coord: Object { lon: -85.87, lat: 33.6 }
+​
+dt: 1602560954
+​
+id: 4081914
+​
+main: Object { temp: 294.62, feels_like: 297.12, temp_min: 294.15, … }
+​
+name: "Oxford"
+​
+sys: Object { type: 1, id: 3288, country: "US", … }
+​
+timezone: -18000
+​
+visibility: 10000
+​
+weather: Array [ {…} ]
+​
+wind: Object { speed: 2.03, deg: 235 }
+​
+<prototype>: Object { … }
+script.js:29:21
+
+​
+
+
+append to html
+
+
+let apiUserCity = `http://api.openweathermap.org/data/2.5/uvi/forecast?q=${cityCall}&APPID=${apiKey}`;
