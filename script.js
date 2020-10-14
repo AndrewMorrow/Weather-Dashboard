@@ -13,7 +13,7 @@ var userCityName;
 var apiBase = `http://api.openweathermap.org/data/2.5/`;
 var date = Date();
 
-console.log(date);
+// console.log(date);
 
 if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(setLocationGeo);
@@ -76,7 +76,7 @@ function recieveUserCity(cityCall) {
     $.ajax(apiUserCity, {
         success: function (data) {
             var weatherReceived = data;
-            console.log(weatherReceived);
+            // console.log(weatherReceived);
             cityNameReceived = weatherReceived.name;
             weatherIconId = weatherReceived.weather[0].icon;
             temperature = weatherReceived.main.temp;
@@ -108,6 +108,8 @@ function recieveUserCity(cityCall) {
 
 function getUvi(lat, long) {
     let apiUvi = `${apiBase}uvi?lat=${lat}&lon=${long}&units=imperial&APPID=${apiKey}`;
+    console.log(lat);
+    console.log(long);
     $.ajax(apiUvi, {
         success: function (data) {
             var uviReceived = data.value;
@@ -122,7 +124,11 @@ function getUvi(lat, long) {
 }
 
 function getForecast(lat, long) {
-    let apiForecast = `${apiBase}forecast?lat=${lat}&lon=${long}&units=imperial&APPID=${apiKey}`;
+    let apiForecast = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&cnt=5&units=imperial&APPID=${apiKey}`;
+
+    // console.log(lat);
+    // console.log(long);
+
     $.ajax(apiForecast, {
         success: function (data) {
             var forecastReceived = data.value;
