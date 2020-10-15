@@ -6,9 +6,6 @@
     background-color: aqua;
 }
 
-.histBtn {
-    cursor: pointer;
-}
 .histBtn:hover {
     background-color: burlywood;
 }

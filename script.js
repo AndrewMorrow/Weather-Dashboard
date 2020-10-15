@@ -13,56 +13,66 @@ var userCityName;
 var apiBase = `http://api.openweathermap.org/data/2.5/`;
 var date = Date();
 var storageArray = [];
-var forecastStorageArray = [];
 
-// console.log(date);
-
-if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(setLocationGeo);
-}
+// if ("geolocation" in navigator) {
+//     navigator.geolocation.getCurrentPosition(setLocationGeo);
+// }
 
 // this sets the users location if they allow it in the browser
-function setLocationGeo(position) {
-    let latitude = position.coords.latitude;
-    let longitude = position.coords.longitude;
+// function setLocationGeo(position) {
+//     let latitude = position.coords.latitude;
+//     let longitude = position.coords.longitude;
+//     cityDisplayElem.empty();
+//     forecastElem.empty();
+//     var target = storageArray.length - 1;
 
-    // takes lat and long and passes to this function
-    let apiGeo = `${apiBase}weather?lat=${latitude}&lon=${longitude}&units=imperial&APPID=${apiKey}`;
+//     // takes lat and long and passes to this function
+//     let apiGeo = `${apiBase}weather?lat=${latitude}&lon=${longitude}&units=imperial&APPID=${apiKey}`;
 
-    $.ajax(apiGeo, {
-        success: function (data) {
-            var weatherReceived = data;
-            // console.log(weatherReceived);
-            cityNameReceived = weatherReceived.name;
-            weatherIconId = weatherReceived.weather[0].icon;
-            temperature = Math.round(weatherReceived.main.temp);
-            humidity = weatherReceived.main.humidity;
-            windSpeed = weatherReceived.wind.speed;
+//     $.ajax(apiGeo, {
+//         success: function (data) {
+//             var weatherReceived = data;
+//             var cityId = weatherReceived.id;
+//             var cityNameReceived = weatherReceived.name;
+//             var weatherIconId = weatherReceived.weather[0].icon;
+//             var temperature = Math.round(weatherReceived.main.temp);
+//             var humidity = weatherReceived.main.humidity;
+//             var windSpeed = weatherReceived.wind.speed;
+//             var dateGet = weatherReceived.dt;
+//             var currentDateSet = new Date(dateGet * 1000).toLocaleDateString();
 
-            var cityNameHeader = $(
-                `<h2> ${cityNameReceived} <img src=" http://openweathermap.org/img/wn/${weatherIconId}.png"></img></h2>`
-            );
-            var tempDisplay = $(`<p> Temperature: ${temperature} °F </p>`);
-            var humDisplay = $(`<p> Humidity: ${humidity} % </p>`);
-            var windSpeedDisplay = $(`<p> Wind Speed: ${windSpeed} MPH </p>`);
-            cityDisplayElem.append(cityNameHeader);
-            cityDisplayElem.append(tempDisplay);
-            cityDisplayElem.append(humDisplay);
-            cityDisplayElem.append(windSpeedDisplay);
-        },
-        error: function () {
-            $(errorElem).text("An Error occured while retrieving data");
-        },
-    });
+//             var cityNameHeader = $(
+//                 `<h2> ${cityNameReceived} ${currentDateSet}<img src=" http://openweathermap.org/img/wn/${weatherIconId}.png"></img> </h2>`
+//             );
+//             var tempDisplay = $(`<p> Temperature: ${temperature} °F </p>`);
+//             var humDisplay = $(`<p> Humidity: ${humidity} % </p>`);
+//             var windSpeedDisplay = $(`<p> Wind Speed: ${windSpeed} MPH </p>`);
 
-    getUvi(latitude, longitude);
-    getForecast(latitude, longitude);
-}
+//             var cityCard = {
+//                 cityName: cityNameReceived,
+//                 dt: dateGet,
+//                 id: cityId,
+//                 icon: weatherIconId,
+//                 temp: temperature,
+//                 humidity: humidity,
+//                 windSpeed: windSpeed,
+//                 lat: latitude,
+//                 lon: longitude,
+//                 forecast: [],
+//             };
 
-// // recieves weather from api with users browser geolocation
-// function recieveWeatherGeo(latitude, longitude) {
-//     // let api = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&APPID={352f5b8e182609abba7014500a96eea5}`;
-
+//             storageArray.push(cityCard);
+//             cityDisplayElem.append(cityNameHeader);
+//             cityDisplayElem.append(tempDisplay);
+//             cityDisplayElem.append(humDisplay);
+//             cityDisplayElem.append(windSpeedDisplay);
+//             getUvi(latitude, longitude);
+//             getForecast(latitude, longitude, dateGet);
+//         },
+//         error: function () {
+//             $(errorElem).text("An Error occured while retrieving data");
+//         },
+//     });
 // }
 
 searchButtonElem.on("click", (e) => {
@@ -81,7 +91,7 @@ function recieveUserCity(cityCall) {
     $.ajax(apiUserCity, {
         success: function (data) {
             var weatherReceived = data;
-            // console.log(weatherReceived);
+            var cityId = weatherReceived.id;
             var dateGet = weatherReceived.dt;
             var currentDateSet = new Date(dateGet * 1000).toLocaleDateString();
             var cityNameReceived = weatherReceived.name;
@@ -102,18 +112,22 @@ function recieveUserCity(cityCall) {
             cityDisplayElem.append(tempDisplay);
             cityDisplayElem.append(humDisplay);
             cityDisplayElem.append(windSpeedDisplay);
+
             getUvi(latitude, longitude);
-            getForecast(latitude, longitude);
+
+            getForecast(latitude, longitude, dateGet);
 
             var cityCard = {
                 cityName: cityNameReceived,
                 dt: dateGet,
+                id: cityId,
                 icon: weatherIconId,
                 temp: temperature,
                 humidity: humidity,
                 windSpeed: windSpeed,
                 lat: latitude,
                 lon: longitude,
+                forecast: [],
             };
 
             storageArray.push(cityCard);
@@ -135,16 +149,7 @@ function getUvi(lat, long) {
             var uviDisplay = $(`<p> UV Index: ${uviReceived} </p>`);
             cityDisplayElem.append(uviDisplay);
             var target = storageArray.length - 1;
-            // console.log(target);
             storageArray[target].uvi = uviReceived;
-            // localStorage.setItem("cityCard", JSON.stringify(storageArray));
-            // var searchHistoryDisplay = $(
-            //     `<li class="histBtn list-group-item">${storageArray[target].cityName}</li>`
-            // );
-            // searchHistoryElem.append(searchHistoryDisplay);
-            // localStorage.setItem("cityCard", uviReceived);
-            // console.log(uviReceived);
-            $("li").on("click", pullStorage);
         },
         error: function () {
             $(errorElem).text("An Error occured while retrieving data");
@@ -152,16 +157,14 @@ function getUvi(lat, long) {
     });
 }
 
-function getForecast(lat, long) {
+function getForecast(lat, long, time) {
     let apiForecast = `${apiBase}forecast?lat=${lat}&lon=${long}&units=imperial&APPID=${apiKey}`;
-
+    // console.log(time);
     $.ajax(apiForecast, {
         success: function (data) {
-            // var forecastReceived = data;
+            var timeStamp = new Date(time * 1000).toLocaleString();
             var dayList = data.list;
-            // console.log(forecastReceived);
             var target = storageArray.length - 1;
-            console.log(target);
             for (let i = 4; i <= dayList.length; i = i + 8) {
                 var forecastCardDisplay = $(
                     `<div class= "card forecastCard${i} mb-2"> 5 Day Forecast: </div>`
@@ -189,30 +192,23 @@ function getForecast(lat, long) {
                 $(`.forecastCard${i}`).append(temperatureDisplay);
                 $(`.forecastCard${i}`).append(humidityDisplay);
 
-                var existingStorage = JSON.parse(
-                    localStorage.getItem("cityCard")
-                );
+                var forecastObj = {
+                    dt: dayInArray,
+                    icon: forecastWeatherIcon,
+                    temp: forecastTemp,
+                    humidity: forecastHum,
+                };
 
-                var forecastObj = (storageArray[target].forecast = [
-                    {
-                        dt: dayInArray,
-                        icon: forecastWeatherIcon,
-                        temp: forecastTemp,
-                        humidity: forecastHum,
-                    },
-                ]);
-
-                // existingStorage.push(forecastObj);
-                console.log(forecastObj);
-
-                // console.log(storageArray);
+                storageArray[target].forecast.push(forecastObj);
             }
 
             localStorage.setItem("cityCard", JSON.stringify(storageArray));
             var searchHistoryDisplay = $(
-                `<li class="histBtn list-group-item">${storageArray[target].cityName}</li>`
+                `<li class="histBtn list-group-item search${target}">${storageArray[target].cityName} ${timeStamp}</li>`
             );
             searchHistoryElem.append(searchHistoryDisplay);
+
+            $(`.search${target}`).on("click", pullStorage);
         },
         error: function () {
             $(errorElem).text("An Error occured while retrieving data");
@@ -225,13 +221,10 @@ function pullStorage(e) {
     cityDisplayElem.empty();
     forecastElem.empty();
 
-    var cityList = JSON.parse(localStorage.getItem("cityCard"));
-    // console.log(cityList);
+    var cityStorage = JSON.parse(localStorage.getItem("cityCard"));
     cityName = this.textContent;
-    cityList.forEach(function (element) {
+    cityStorage.forEach(function (element) {
         if (cityName === element.cityName) {
-            // console.log("match");
-
             var currentDateSet = new Date(
                 element.dt * 1000
             ).toLocaleDateString();
@@ -250,7 +243,26 @@ function pullStorage(e) {
             cityDisplayElem.append(windSpeedDisplay);
             var uviDisplay = $(`<p> UV Index: ${element.uvi} </p>`);
             cityDisplayElem.append(uviDisplay);
-            // getForecast(element.lat, element.lon);
+
+            element.forecast.forEach(function (item) {
+                var dateSet = new Date(item.dt * 1000).toLocaleDateString();
+                var dateDisplay = $(`<p> ${dateSet} </p>`);
+                var weatherIconDisplay = $(
+                    `<div> <img src=" http://openweathermap.org/img/wn/${item.icon}.png"></img> </div> `
+                );
+                var temperatureDisplay = $(
+                    `<p> Temperature: ${item.temp} °F </p>`
+                );
+                var humidityDisplay = $(`<p> Humidity: ${item.humidity} </p>`);
+                var forecastCardDisplay = $(
+                    `<div class= "card forecastCard${item.dt} mb-2"> 5 Day Forecast: </div>`
+                );
+                $(`.forecast`).append(forecastCardDisplay);
+                $(`.forecastCard${item.dt}`).append(dateDisplay);
+                $(`.forecastCard${item.dt}`).append(weatherIconDisplay);
+                $(`.forecastCard${item.dt}`).append(temperatureDisplay);
+                $(`.forecastCard${item.dt}`).append(humidityDisplay);
+            });
         }
     });
 }
