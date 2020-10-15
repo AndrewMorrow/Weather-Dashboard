@@ -169,3 +169,6 @@ list[36]
 
 date.toLocaleDateString()
 1602763200*1000
+
+
+pull out local storage and target needed values to display them.
