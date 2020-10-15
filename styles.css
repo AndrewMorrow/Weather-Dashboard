@@ -1,3 +1,7 @@
 .city-display {
     border: 1px solid;
 }
+
+.card {
+    background-color: aqua;
+}

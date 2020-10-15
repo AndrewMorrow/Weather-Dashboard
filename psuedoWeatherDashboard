@@ -146,3 +146,26 @@ append to html
 
 
 let apiUserCity = `http://api.openweathermap.org/data/2.5/uvi/forecast?q=${cityCall}&APPID=${apiKey}`;
+
+
+{…}
+​
+city: Object { id: 4081914, name: "Oxford", country: "US", … }
+​
+cnt: 5
+​
+cod: "200"
+​
+list: Array(5) [ {…}, {…}, {…}, … ]
+​
+message: 0
+
+
+list[4] 
+list[12] 
+list[20]
+list[28]
+list[36]
+
+date.toLocaleDateString()
+1602763200*1000

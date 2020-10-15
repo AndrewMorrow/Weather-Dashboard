@@ -108,8 +108,7 @@ function recieveUserCity(cityCall) {
 
 function getUvi(lat, long) {
     let apiUvi = `${apiBase}uvi?lat=${lat}&lon=${long}&units=imperial&APPID=${apiKey}`;
-    console.log(lat);
-    console.log(long);
+
     $.ajax(apiUvi, {
         success: function (data) {
             var uviReceived = data.value;
@@ -124,15 +123,43 @@ function getUvi(lat, long) {
 }
 
 function getForecast(lat, long) {
-    let apiForecast = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&cnt=5&units=imperial&APPID=${apiKey}`;
-
-    // console.log(lat);
-    // console.log(long);
+    let apiForecast = `${apiBase}forecast?lat=${lat}&lon=${long}&units=imperial&APPID=${apiKey}`;
 
     $.ajax(apiForecast, {
         success: function (data) {
-            var forecastReceived = data.value;
-            console.log(forecastReceived);
+            var forecastReceived = data;
+            dayList = data.list;
+            // console.log(forecastReceived);
+
+            for (let i = 4; i <= dayList.length; i = i + 8) {
+                console.log("run loop");
+                console.log(i);
+                var forecastCardDisplay = $(
+                    `<div class= "card forecastCard${i} mb-2"> 5 Day Forecast: </div>`
+                );
+
+                $(".forecast").append(forecastCardDisplay);
+
+                var dayInArray = dayList[i].dt;
+                var dateSet = new Date(dayInArray * 1000).toLocaleDateString();
+                var forecastWeatherIcon = dayList[i].weather[0].icon;
+                var forecastTemp = Math.round(dayList[i].main.temp);
+                var forecastHum = dayList[i].main.humidity;
+
+                var dateDisplay = $(`<p> ${dateSet} </p>`);
+                var weatherIconDisplay = $(
+                    `<div> <img src=" http://openweathermap.org/img/wn/${forecastWeatherIcon}.png"></img> </div> `
+                );
+                var temperatureDisplay = $(
+                    `<p> Temperature: ${forecastTemp} °F </p>`
+                );
+                var humidityDisplay = $(`<p> Humidity: ${forecastHum} </p>`);
+
+                $(`.forecastCard${i}`).append(dateDisplay);
+                $(`.forecastCard${i}`).append(weatherIconDisplay);
+                $(`.forecastCard${i}`).append(temperatureDisplay);
+                $(`.forecastCard${i}`).append(humidityDisplay);
+            }
         },
         error: function () {
             $(errorElem).text("An Error occured while retrieving data");
