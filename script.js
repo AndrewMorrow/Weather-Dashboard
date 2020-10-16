@@ -164,9 +164,10 @@ function getForecast(lat, long, time) {
             var timeStamp = new Date(time * 1000).toLocaleString();
             var dayList = data.list;
             var target = storageArray.length - 1;
+            $(".forecast").text("5 Day Forecast:");
             for (let i = 4; i <= dayList.length; i = i + 8) {
                 var forecastCardDisplay = $(
-                    `<div class= "card forecastCard${i} mb-2"> 5 Day Forecast: </div>`
+                    `<div class= "card forecastCard${i} mb-2"> </div>`
                 );
 
                 $(".forecast").append(forecastCardDisplay);
@@ -203,11 +204,11 @@ function getForecast(lat, long, time) {
 
             localStorage.setItem("cityCard", JSON.stringify(storageArray));
             var searchHistoryDisplay = $(
-                `<li class="histBtn list-group-item search${target}">${storageArray[target].cityName} ${timeStamp}</li>`
+                `<li class="histBtn list-group-item" data-cityName = ${storageArray[target].cityName} >${storageArray[target].cityName} ${timeStamp}</li>`
             );
             searchHistoryElem.append(searchHistoryDisplay);
 
-            $(`.search${target}`).on("click", pullStorage);
+            $(document).on("click", ".histBtn", pullStorage);
         },
         error: function () {
             $(errorElem).text("An Error occured while retrieving data");
@@ -221,7 +222,7 @@ function pullStorage(e) {
     forecastElem.empty();
 
     var cityStorage = JSON.parse(localStorage.getItem("cityCard"));
-    cityName = this.textContent;
+    cityName = $(this).attr("data-cityName");
     cityStorage.forEach(function (element) {
         if (cityName === element.cityName) {
             var currentDateSet = new Date(
@@ -242,6 +243,7 @@ function pullStorage(e) {
             cityDisplayElem.append(windSpeedDisplay);
             var uviDisplay = $(`<p> UV Index: ${element.uvi} </p>`);
             cityDisplayElem.append(uviDisplay);
+            $(".forecast").text("5 Day Forecast:");
 
             element.forecast.forEach(function (item) {
                 var dateSet = new Date(item.dt * 1000).toLocaleDateString();
@@ -254,7 +256,7 @@ function pullStorage(e) {
                 );
                 var humidityDisplay = $(`<p> Humidity: ${item.humidity} </p>`);
                 var forecastCardDisplay = $(
-                    `<div class= "card forecastCard${item.dt} mb-2"> 5 Day Forecast: </div>`
+                    `<div class= "card forecastCard${item.dt} mb-2"> </div>`
                 );
                 $(`.forecast`).append(forecastCardDisplay);
                 $(`.forecastCard${item.dt}`).append(dateDisplay);
@@ -266,30 +268,30 @@ function pullStorage(e) {
     });
 }
 
-function storageForecast() {
-    for (let i = 4; i <= dayList.length; i = i + 8) {
-        var forecastCardDisplay = $(
-            `<div class= "card forecastCard${i} mb-2"> 5 Day Forecast: </div>`
-        );
+// function storageForecast() {
+//     for (let i = 4; i <= dayList.length; i = i + 8) {
+//         var forecastCardDisplay = $(
+//             `<div class= "card forecastCard${i} mb-2"></div>`
+//         );
 
-        $(".forecast").append(forecastCardDisplay);
+//         $(".forecast").append(forecastCardDisplay);
 
-        var dayInArray = dayList[i].dt;
-        var dateSet = new Date(dayInArray * 1000).toLocaleDateString();
-        var forecastWeatherIcon = dayList[i].weather[0].icon;
-        var forecastTemp = Math.round(dayList[i].main.temp);
-        var forecastHum = dayList[i].main.humidity;
+//         var dayInArray = dayList[i].dt;
+//         var dateSet = new Date(dayInArray * 1000).toLocaleDateString();
+//         var forecastWeatherIcon = dayList[i].weather[0].icon;
+//         var forecastTemp = Math.round(dayList[i].main.temp);
+//         var forecastHum = dayList[i].main.humidity;
 
-        var dateDisplay = $(`<p> ${dateSet} </p>`);
-        var weatherIconDisplay = $(
-            `<div> <img src=" http://openweathermap.org/img/wn/${forecastWeatherIcon}.png"></img> </div> `
-        );
-        var temperatureDisplay = $(`<p> Temperature: ${forecastTemp} °F </p>`);
-        var humidityDisplay = $(`<p> Humidity: ${forecastHum} </p>`);
+//         var dateDisplay = $(`<p> ${dateSet} </p>`);
+//         var weatherIconDisplay = $(
+//             `<div> <img src=" http://openweathermap.org/img/wn/${forecastWeatherIcon}.png"></img> </div> `
+//         );
+//         var temperatureDisplay = $(`<p> Temperature: ${forecastTemp} °F </p>`);
+//         var humidityDisplay = $(`<p> Humidity: ${forecastHum} </p>`);
 
-        $(`.forecastCard${i}`).append(dateDisplay);
-        $(`.forecastCard${i}`).append(weatherIconDisplay);
-        $(`.forecastCard${i}`).append(temperatureDisplay);
-        $(`.forecastCard${i}`).append(humidityDisplay);
-    }
-}
+//         $(`.forecastCard${i}`).append(dateDisplay);
+//         $(`.forecastCard${i}`).append(weatherIconDisplay);
+//         $(`.forecastCard${i}`).append(temperatureDisplay);
+//         $(`.forecastCard${i}`).append(humidityDisplay);
+//     }
+// }
