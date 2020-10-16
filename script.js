@@ -79,6 +79,7 @@ searchButtonElem.on("click", (e) => {
     e.preventDefault();
     cityDisplayElem.empty();
     forecastElem.empty();
+    errorElem.empty();
 
     userCityCall = $("input").val();
 
@@ -87,10 +88,13 @@ searchButtonElem.on("click", (e) => {
 
 function recieveUserCity(cityCall) {
     let apiUserCity = `${apiBase}weather?q=${cityCall}&units=imperial&APPID=${apiKey}`;
-
+    cityDisplayElem.empty();
+    forecastElem.empty();
+    errorElem.empty();
     $.ajax(apiUserCity, {
         success: function (data) {
             var weatherReceived = data;
+
             var cityId = weatherReceived.id;
             var dateGet = weatherReceived.dt;
             var currentDateSet = new Date(dateGet * 1000).toLocaleDateString();
@@ -123,6 +127,7 @@ function recieveUserCity(cityCall) {
                 windSpeed: windSpeed,
                 lat: latitude,
                 lon: longitude,
+                uvi: 0,
                 forecast: [],
             };
             storageArray.push(cityCard);
@@ -145,10 +150,24 @@ function getUvi(lat, long) {
     $.ajax(apiUvi, {
         success: function (data) {
             var uviReceived = data.value;
-            var uviDisplay = $(`<p> UV Index: ${uviReceived} </p>`);
+            var uviDisplay = $(
+                `<p class = "uviDisplay "> UV Index: <span class= "uviColor">${uviReceived}</span> </p>`
+            );
             cityDisplayElem.append(uviDisplay);
             var target = storageArray.length - 1;
             storageArray[target].uvi = uviReceived;
+            if (uviReceived > 10) {
+                $(".uviColor").addClass("uviExtreme");
+            } else if (uviReceived > 8 && uviReceived <= 10) {
+                $(".uviColor").addClass("uviVeryHigh");
+            } else if (uviReceived > 5 && uviReceived < 8) {
+                $(".uviColor").addClass("uviHigh");
+            } else if (uviReceived > 2 && uviReceived < 6) {
+                $(".uviColor").addClass("uviMedium");
+            } else if (uviReceived >= 0 && uviReceived < 3) {
+                $(".uviColor").addClass("uviLow");
+            }
+            // console.log(storageArray);
         },
         error: function () {
             $(errorElem).text("An Error occured while retrieving data");
@@ -201,11 +220,14 @@ function getForecast(lat, long, time) {
 
                 storageArray[target].forecast.push(forecastObj);
             }
+            var cityTarget = storageArray[target].cityName;
+            var dataValue = cityTarget.split(" ").join("");
 
             localStorage.setItem("cityCard", JSON.stringify(storageArray));
             var searchHistoryDisplay = $(
-                `<li class="histBtn list-group-item" data-cityName = ${storageArray[target].cityName} >${storageArray[target].cityName} ${timeStamp}</li>`
+                `<li class="histBtn list-group-item" data-cityName = ${dataValue} >${storageArray[target].cityName} ${timeStamp}</li>`
             );
+
             searchHistoryElem.append(searchHistoryDisplay);
 
             $(document).on("click", ".histBtn", pullStorage);
@@ -220,11 +242,15 @@ function pullStorage(e) {
     e.preventDefault();
     cityDisplayElem.empty();
     forecastElem.empty();
+    errorElem.empty();
 
     var cityStorage = JSON.parse(localStorage.getItem("cityCard"));
+    console.log(cityStorage);
     cityName = $(this).attr("data-cityName");
     cityStorage.forEach(function (element) {
-        if (cityName === element.cityName) {
+        if (cityName === element.cityName.split(" ").join("")) {
+            cityDisplayElem.empty();
+            // console.log(element);
             var currentDateSet = new Date(
                 element.dt * 1000
             ).toLocaleDateString();
@@ -241,8 +267,21 @@ function pullStorage(e) {
             cityDisplayElem.append(tempDisplay);
             cityDisplayElem.append(humDisplay);
             cityDisplayElem.append(windSpeedDisplay);
-            var uviDisplay = $(`<p> UV Index: ${element.uvi} </p>`);
+            var uviDisplay = $(
+                `<p class = "uviDisplay">  UV Index: <span class= "uviColor"> ${element.uvi} </span> </p>`
+            );
             cityDisplayElem.append(uviDisplay);
+            if (element.uvi > 10) {
+                $(".uviColor").addClass("uviExtreme");
+            } else if (element.uvi > 8 && element.uvi <= 10) {
+                $(".uviColor").addClass("uviVeryHigh");
+            } else if (element.uvi > 5 && element.uvi < 8) {
+                $(".uviColor").addClass("uviHigh");
+            } else if (element.uvi > 2 && element.uvi < 6) {
+                $(".uviColor").addClass("uviMedium");
+            } else if (element.uvi >= 0 && element.uvi < 3) {
+                $(".uviColor").addClass("uviLow");
+            }
             $(".forecast").text("5 Day Forecast:");
 
             element.forecast.forEach(function (item) {
