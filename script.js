@@ -113,10 +113,6 @@ function recieveUserCity(cityCall) {
             cityDisplayElem.append(humDisplay);
             cityDisplayElem.append(windSpeedDisplay);
 
-            getUvi(latitude, longitude);
-
-            getForecast(latitude, longitude, dateGet);
-
             var cityCard = {
                 cityName: cityNameReceived,
                 dt: dateGet,
@@ -129,8 +125,11 @@ function recieveUserCity(cityCall) {
                 lon: longitude,
                 forecast: [],
             };
-
             storageArray.push(cityCard);
+
+            getUvi(latitude, longitude);
+
+            getForecast(latitude, longitude, dateGet);
         },
         error: function () {
             $(errorElem).text(
