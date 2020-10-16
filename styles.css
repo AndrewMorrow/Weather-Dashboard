@@ -1,5 +1,5 @@
-.city-display {
-    border: 1px solid;
+.addBorder {
+    border: 2px solid black;
 }
 
 .card {
@@ -8,4 +8,23 @@
 
 .histBtn:hover {
     background-color: burlywood;
+}
+
+.uviLow {
+    background-color: lightgreen;
+}
+.uviMedium {
+    background-color: yellow;
+}
+.uviHigh {
+    background-color: orange;
+}
+.uviVeryHigh {
+    background-color: red;
+}
+.uviExtreme {
+    background-color: violet;
+}
+.uviDisplay {
+    text-decoration-style: wavy;
 }
