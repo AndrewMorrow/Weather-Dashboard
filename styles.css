@@ -28,3 +28,16 @@
 .uviDisplay {
     text-decoration-style: wavy;
 }
+
+.header-wrap {
+    background-color: aqua;
+    height: 80px;
+}
+li {
+    position: relative;
+}
+.clearBtn {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}

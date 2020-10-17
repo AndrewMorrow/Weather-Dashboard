@@ -176,7 +176,7 @@ $(document).ready(function () {
         forecastElem.empty();
         errorElem.empty();
 
-        cityName = $(this).clone().children().remove().end().text().trim();
+        cityName = $(this).attr("data-cityName");
         console.log(cityName);
         recieveUserCity(cityName);
     }
@@ -189,7 +189,7 @@ $(document).ready(function () {
             storageArray.push(city);
             localStorage.setItem("city", JSON.stringify(storageArray));
             var searchHistoryDisplay = $(
-                `<li class="histBtn list-group-item" data-cityName = ${city} > ${city} <button class= "btn btn-primary clearBtn ml-auto" data-cityName= ${city} > ${"Clear"} </button></li>`
+                `<li class="histBtn list-group-item" data-cityName = "${city}" > ${city} <button class= "btn btn-primary clearBtn ml-auto" data-cityName= "${city}" > ${"Clear"} </button></li>`
             );
             searchHistoryElem.append(searchHistoryDisplay);
         }
@@ -202,7 +202,7 @@ function grabStorage() {
     storageArray = cityStorage;
     cityStorage.forEach((element) => {
         var searchHistoryDisplay = $(
-            `<li class="histBtn list-group-item" data-cityName = ${element} > ${element} <button class= "btn btn-primary clearBtn ml-auto" data-cityName = ${element}> ${"Clear"} </button> </li>`
+            `<li class="histBtn list-group-item" data-cityName = "${element}" > ${element} <button class= "btn btn-primary clearBtn ml-auto" data-cityName = "${element}"> ${"Clear"} </button> </li>`
         );
         searchHistoryElem.append(searchHistoryDisplay);
     });
@@ -220,9 +220,8 @@ function removeCity(e) {
     forecastElem.empty();
     errorElem.empty();
 
-    // I had to do the following to get the button text to not show
-    // this clones the li, removes the children goes back to the li and gets the text
-    cityName = $(this).parent().clone().children().remove().end().text().trim();
+    //   gets the data attribute from the button
+    cityName = $(this).attr("data-cityName");
     // finds the index of the city on the li
     const index = storageArray.indexOf(cityName);
     // if the index exists in the array it then removes it
