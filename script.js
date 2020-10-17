@@ -21,6 +21,7 @@ $(document).ready(function () {
         errorElem.empty();
         // grabs user input
         userCityCall = $("input").val();
+        $("input").val("");
         // sends input to call api
         recieveUserCity(userCityCall);
     });
@@ -187,7 +188,7 @@ $(document).ready(function () {
             storageArray.push(city);
             localStorage.setItem("city", JSON.stringify(storageArray));
             var searchHistoryDisplay = $(
-                `<li class="histBtn list-group-item" data-cityName = ${city} > ${city} <button class= "btn btn-primary clearBtn ml-auto" data-cityName = ${city}> ${"Clear"} </button></li>`
+                `<li class="histBtn list-group-item" data-cityName = ${city} > ${city} <button class= "btn btn-primary clearBtn ml-auto" data-cityName= ${city} > ${"Clear"} </button></li>`
             );
             searchHistoryElem.append(searchHistoryDisplay);
         }
@@ -213,6 +214,7 @@ function removeCity(e) {
     e.preventDefault();
     e.stopPropagation();
     cityDisplayElem.empty();
+    cityDisplayElem.removeClass("addBorder");
     forecastElem.empty();
     errorElem.empty();
 
