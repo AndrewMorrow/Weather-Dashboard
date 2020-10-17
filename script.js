@@ -176,7 +176,8 @@ $(document).ready(function () {
         forecastElem.empty();
         errorElem.empty();
 
-        cityName = $(this).attr("data-cityName");
+        cityName = $(this).clone().children().remove().end().text().trim();
+        console.log(cityName);
         recieveUserCity(cityName);
     }
 
@@ -207,10 +208,11 @@ function grabStorage() {
     });
 }
 
+// fires function that removes li when the clear button is clicked.
 searchHistoryElem.on("click", ".clearBtn", removeCity);
 
+// deletes the li when the clear button is clicked
 function removeCity(e) {
-    console.log("clear event");
     e.preventDefault();
     e.stopPropagation();
     cityDisplayElem.empty();
@@ -218,13 +220,17 @@ function removeCity(e) {
     forecastElem.empty();
     errorElem.empty();
 
-    cityName = $(this).attr("data-cityName");
-    console.log(cityName);
+    // I had to do the following to get the button text to not show
+    // this clones the li, removes the children goes back to the li and gets the text
+    cityName = $(this).parent().clone().children().remove().end().text().trim();
+    // finds the index of the city on the li
     const index = storageArray.indexOf(cityName);
-    console.log(index);
+    // if the index exists in the array it then removes it
     if (index > -1) {
         storageArray.splice(index, 1);
+        // updates array in storage after removing
         localStorage.setItem("city", JSON.stringify(storageArray));
+        // deletes the li that contains the city name
         $("li").filter(`:contains(${cityName})`).remove();
     }
 }
