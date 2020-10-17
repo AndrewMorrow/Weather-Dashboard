@@ -187,7 +187,7 @@ $(document).ready(function () {
             storageArray.push(city);
             localStorage.setItem("city", JSON.stringify(storageArray));
             var searchHistoryDisplay = $(
-                `<li class="histBtn list-group-item" data-cityName = ${city} > ${city} </li>`
+                `<li class="histBtn list-group-item" data-cityName = ${city} > ${city} <button class= "btn btn-primary clearBtn ml-auto" data-cityName = ${city}> ${"Clear"} </button></li>`
             );
             searchHistoryElem.append(searchHistoryDisplay);
         }
@@ -196,12 +196,33 @@ $(document).ready(function () {
 
 // sets search history from local storage when the document loads
 function grabStorage() {
-    var cityStorage = JSON.parse(localStorage.getItem("city"));
+    var cityStorage = JSON.parse(localStorage.getItem("city")) || [];
     storageArray = cityStorage;
     cityStorage.forEach((element) => {
         var searchHistoryDisplay = $(
-            `<li class="histBtn list-group-item" data-cityName = ${element} > ${element} </li>`
+            `<li class="histBtn list-group-item" data-cityName = ${element} > ${element} <button class= "btn btn-primary clearBtn ml-auto" data-cityName = ${element}> ${"Clear"} </button> </li>`
         );
         searchHistoryElem.append(searchHistoryDisplay);
     });
+}
+
+searchHistoryElem.on("click", ".clearBtn", removeCity);
+
+function removeCity(e) {
+    console.log("clear event");
+    e.preventDefault();
+    e.stopPropagation();
+    cityDisplayElem.empty();
+    forecastElem.empty();
+    errorElem.empty();
+
+    cityName = $(this).attr("data-cityName");
+    console.log(cityName);
+    const index = storageArray.indexOf(cityName);
+    console.log(index);
+    if (index > -1) {
+        storageArray.splice(index, 1);
+        localStorage.setItem("city", JSON.stringify(storageArray));
+        $("li").filter(`:contains(${cityName})`).remove();
+    }
 }
