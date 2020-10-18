@@ -176,8 +176,8 @@ $(document).ready(function () {
         forecastElem.empty();
         errorElem.empty();
 
+        // grabs data attribute from li
         cityName = $(this).attr("data-cityName");
-        console.log(cityName);
         recieveUserCity(cityName);
     }
 
@@ -188,22 +188,24 @@ $(document).ready(function () {
         } else {
             storageArray.push(city);
             localStorage.setItem("city", JSON.stringify(storageArray));
-            var searchHistoryDisplay = $(
-                `<li class="histBtn list-group-item" data-cityName = "${city}" > ${city} <button class= "btn btn-primary clearBtn ml-auto" data-cityName= "${city}" > ${"Clear"} </button></li>`
-            );
+            var searchHistoryDisplay = generateCityListItem(city);
             searchHistoryElem.append(searchHistoryDisplay);
         }
     }
 });
+
+function generateCityListItem(city) {
+    return $(
+        `<li class="histBtn list-group-item" data-cityName = "${city}" > ${city} <button class= "btn btn-primary clearBtn ml-auto" > ${"Clear"} </button></li>`
+    );
+}
 
 // sets search history from local storage when the document loads
 function grabStorage() {
     var cityStorage = JSON.parse(localStorage.getItem("city")) || [];
     storageArray = cityStorage;
     cityStorage.forEach((element) => {
-        var searchHistoryDisplay = $(
-            `<li class="histBtn list-group-item" data-cityName = "${element}" > ${element} <button class= "btn btn-primary clearBtn ml-auto" data-cityName = "${element}"> ${"Clear"} </button> </li>`
-        );
+        var searchHistoryDisplay = generateCityListItem(element);
         searchHistoryElem.append(searchHistoryDisplay);
     });
 }
@@ -220,8 +222,8 @@ function removeCity(e) {
     forecastElem.empty();
     errorElem.empty();
 
-    //   gets the data attribute from the button
-    cityName = $(this).attr("data-cityName");
+    // grabs data attribute from button
+    cityName = $(this).parent().attr("data-cityname");
     // finds the index of the city on the li
     const index = storageArray.indexOf(cityName);
     // if the index exists in the array it then removes it
@@ -230,6 +232,6 @@ function removeCity(e) {
         // updates array in storage after removing
         localStorage.setItem("city", JSON.stringify(storageArray));
         // deletes the li that contains the city name
-        $("li").filter(`:contains(${cityName})`).remove();
+        $(this).parent().remove();
     }
 }
