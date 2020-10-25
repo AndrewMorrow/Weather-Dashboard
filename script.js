@@ -126,12 +126,12 @@ $(document).ready(function () {
         })
             .then(function (response) {
                 var dayList = response.list;
-                $(".forecast").text("5 Day Forecast:");
-
+                var forecastText = `<p>5 Day Forecast</p>`;
+                $(".forecast-text").append(forecastText);
                 // this loops through the forecast list returned and displays it
                 for (let i = 4; i <= dayList.length; i = i + 8) {
                     var forecastCardDisplay = $(
-                        `<div class= "card forecastCard${i} mb-2"> </div>`
+                        `<div class= "card forecastCard${i} ml-3 mb-2"> </div>`
                     );
                     $(".forecast").append(forecastCardDisplay);
                     var dayInArray = dayList[i].dt;
@@ -144,7 +144,7 @@ $(document).ready(function () {
 
                     var dateDisplay = $(`<p> ${dateSet} </p>`);
                     var weatherIconDisplay = $(
-                        `<div> <img src=" http://openweathermap.org/img/wn/${forecastWeatherIcon}.png"></img> </div> `
+                        `<div> <img src=" http://openweathermap.org/img/wn/${forecastWeatherIcon}.png" alt="Weather Icon"></img> </div> `
                     );
                     var temperatureDisplay = $(
                         `<p> Temperature: ${forecastTemp} °F </p>`

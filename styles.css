@@ -3,7 +3,8 @@
 }
 
 .card {
-    background-color: aqua;
+    background-color: #51bbfe;
+    padding: 10px;
 }
 
 .histBtn:hover {
@@ -30,14 +31,18 @@
 }
 
 .header-wrap {
-    background-color: aqua;
+    background-color: #51bbfe;
     height: 80px;
 }
 li {
     position: relative;
+    margin-left: 1rem;
 }
 .clearBtn {
     position: absolute;
     right: 5px;
     bottom: 5px;
+}
+label {
+    margin-left: 1rem;
 }

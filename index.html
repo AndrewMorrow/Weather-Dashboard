@@ -28,7 +28,7 @@
 
     <body>
         <div
-            class="header-wrap d-flex justify-content-center align-items-center"
+            class="header-wrap d-flex justify-content-center align-items-center mb-2"
         >
             <header><h1>Weather Dashboard</h1></header>
         </div>
@@ -38,8 +38,8 @@
                 <!-- row 1 col 1 start -->
                 <div class="col-md-4">
                     <!-- search bar -->
-                    <label for="Search Field">Search for a City:</label>
-                    <form class="input-group search-bar mb-3">
+                    <label for="search-bar">Search for a City:</label>
+                    <form class="input-group col-md-10 search-bar mb-3">
                         <input
                             type="text"
                             class="form-control"
@@ -54,7 +54,9 @@
                         </div>
                     </form>
                     <!-- search history -->
-                    <ul class="col-md-10 search-history list-group"></ul>
+                    <ul
+                        class="col-md-10 col-lg-8 search-history list-group"
+                    ></ul>
                 </div>
                 <!-- row 1 col 1 end -->
                 <!-- row 1 col 2 start -->
@@ -64,6 +66,7 @@
                     <!-- City Display Card -->
                     <div class="city-display mb-2"></div>
                     <!-- 5 day forecast -->
+                    <div class="forecast-text"></div>
                     <div class="row forecast"></div>
                 </section>
                 <!-- row 1 col 2 end-->
