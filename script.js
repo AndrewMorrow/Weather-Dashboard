@@ -5,7 +5,7 @@ const forecastElem = $(".forecast");
 const errorElem = $(".error-notification");
 const searchButtonElem = $(".search-button");
 const apiKey = `352f5b8e182609abba7014500a96eea5`;
-const apiBase = `http://api.openweathermap.org/data/2.5/`;
+const apiBase = `https://api.openweathermap.org/data/2.5/`;
 var storageArray = [];
 
 // waits until document is fully loaded
@@ -55,7 +55,7 @@ $(document).ready(function () {
 
                 // creates elements and appends them with the api info
                 var cityNameHeader = $(
-                    `<h2> ${cityNameReceived} ${currentDateSet}<img src=" http://openweathermap.org/img/wn/${weatherIconId}.png"></img> </h2>`
+                    `<h2> ${cityNameReceived} ${currentDateSet}<img src=" https://openweathermap.org/img/wn/${weatherIconId}.png"></img> </h2>`
                 );
                 var tempDisplay = $(`<p> Temperature: ${temperature} °F </p>`);
                 var humDisplay = $(`<p> Humidity: ${humidity} % </p>`);
@@ -144,7 +144,7 @@ $(document).ready(function () {
 
                     var dateDisplay = $(`<p> ${dateSet} </p>`);
                     var weatherIconDisplay = $(
-                        `<div> <img src=" http://openweathermap.org/img/wn/${forecastWeatherIcon}.png" alt="Weather Icon"></img> </div> `
+                        `<div> <img src=" https://openweathermap.org/img/wn/${forecastWeatherIcon}.png" alt="Weather Icon"></img> </div> `
                     );
                     var temperatureDisplay = $(
                         `<p> Temperature: ${forecastTemp} °F </p>`
