@@ -80,6 +80,10 @@ $(document).ready(function () {
             })
             .catch(function () {
                 cityDisplayElem.removeClass("addBorder");
+                cityDisplayElem.empty();
+                forecastElem.empty();
+                errorElem.empty();
+                forecastText.empty();
                 // sets an error if retrieving data failed
                 errorElem.text(
                     "An error occured when retrieving the data. Please check your spelling and try again."
@@ -116,6 +120,10 @@ $(document).ready(function () {
             })
             .catch(function () {
                 cityDisplayElem.removeClass("addBorder");
+                cityDisplayElem.empty();
+                forecastElem.empty();
+                errorElem.empty();
+                forecastText.empty();
                 // sets an error if retrieving data failed
                 errorElem.text(
                     "An error occured when retrieving the data. Please check your spelling and try again."
@@ -166,6 +174,10 @@ $(document).ready(function () {
             })
             .catch(function () {
                 cityDisplayElem.removeClass("addBorder");
+                cityDisplayElem.empty();
+                forecastElem.empty();
+                errorElem.empty();
+                forecastText.empty();
                 // sets an error if retrieving data failed
                 errorElem.text(
                     "An error occured when contacting the weather server. Please check your spelling and try again."
