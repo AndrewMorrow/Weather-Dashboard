@@ -4,6 +4,7 @@ const cityDisplayElem = $(".city-display");
 const forecastElem = $(".forecast");
 const errorElem = $(".error-notification");
 const searchButtonElem = $(".search-button");
+const forecastText = $(".forecast-text");
 const apiKey = `352f5b8e182609abba7014500a96eea5`;
 const apiBase = `https://api.openweathermap.org/data/2.5/`;
 var storageArray = [];
@@ -19,6 +20,7 @@ $(document).ready(function () {
         cityDisplayElem.empty();
         forecastElem.empty();
         errorElem.empty();
+        forecastText.empty();
         // grabs user input
         userCityCall = $("input").val();
         $("input").val("");
@@ -33,6 +35,7 @@ $(document).ready(function () {
         cityDisplayElem.empty();
         forecastElem.empty();
         errorElem.empty();
+        forecastText.empty();
 
         // calls to get weather info
         $.ajax({
@@ -76,6 +79,7 @@ $(document).ready(function () {
                 checkNames(cityCall);
             })
             .catch(function () {
+                cityDisplayElem.removeClass("addBorder");
                 // sets an error if retrieving data failed
                 errorElem.text(
                     "An error occured when retrieving the data. Please check your spelling and try again."
@@ -111,6 +115,7 @@ $(document).ready(function () {
                 }
             })
             .catch(function () {
+                cityDisplayElem.removeClass("addBorder");
                 // sets an error if retrieving data failed
                 errorElem.text(
                     "An error occured when retrieving the data. Please check your spelling and try again."
@@ -160,6 +165,7 @@ $(document).ready(function () {
                 }
             })
             .catch(function () {
+                cityDisplayElem.removeClass("addBorder");
                 // sets an error if retrieving data failed
                 errorElem.text(
                     "An error occured when contacting the weather server. Please check your spelling and try again."
@@ -175,7 +181,7 @@ $(document).ready(function () {
         cityDisplayElem.empty();
         forecastElem.empty();
         errorElem.empty();
-
+        forecastText.empty();
         // grabs data attribute from li
         cityName = $(this).attr("data-cityName");
         recieveUserCity(cityName);
@@ -221,6 +227,7 @@ function removeCity(e) {
     cityDisplayElem.removeClass("addBorder");
     forecastElem.empty();
     errorElem.empty();
+    forecastText.empty();
 
     // grabs data attribute from button
     cityName = $(this).parent().attr("data-cityname");
