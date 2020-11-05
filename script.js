@@ -13,6 +13,10 @@ var storageArray = [];
 $(document).ready(function () {
     // grabs searches from localstorage
     grabStorage();
+    if (storageArray.length > 0) {
+        var lastCity = storageArray[storageArray.length - 1];
+        recieveUserCity(lastCity);
+    }
     // fires on search button click
     searchButtonElem.on("click", (e) => {
         e.preventDefault();
@@ -254,3 +258,5 @@ function removeCity(e) {
         $(this).parent().remove();
     }
 }
+
+function pullLastCity() {}
